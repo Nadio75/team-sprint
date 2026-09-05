@@ -1,0 +1,1 @@
+const fs = require('fs'); function sortTeamByName(team) { return [...team].sort((a, b) => a.name.localeCompare(b.name)); } const team = JSON.parse(fs.readFileSync('team.json', 'utf8')); const sorted = sortTeamByName(team); sorted.forEach(member => { console.log(`${member.name} - ${member.role}`); }); module.exports = { sortTeamByName }; 
