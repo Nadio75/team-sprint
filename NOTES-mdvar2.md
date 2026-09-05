@@ -56,4 +56,23 @@ After the reset, Git confirmed that my local `rebase-demo` branch was up to date
 
 This exercise showed me why rebasing and force-pushing a shared branch is risky. If I had unique work locally, using `reset --hard` without checking first could have caused me to lose that work. Communication was important before changing the local history.
 
+## Final Reflection
+
+### 1. What I contributed
+
+My main feature contribution was input validation for `team.json`. I created `Validate-TeamJson.ps1`, which checks that the file contains valid JSON, that the top-level structure is an array, and that every team member has both a name and a role. I made the work in separate Conventional Commits, tested both valid and invalid data, pushed the feature branch, opened a pull request, and had the changes reviewed before they were merged.
+
+### 2. What I learned from the conflict exercise
+
+The conflict exercise showed why communication matters when two people change the same part of a shared repository. A conflict should not be resolved by simply choosing one version without understanding what both contributors intended. Guessing could remove another person's useful change or leave the shared file in an incorrect state.
+
+### 3. What I learned from the rebase near-miss
+
+The rebase exercise showed me how rewriting history on a shared branch can affect another developer who already has the old history locally. After the force-push, Git reported that my local and remote branches had diverged.
+
+Before recovering, I confirmed that the force-push was intentional and that I had no unique local work. I then used `git reset --hard origin/rebase-demo` to synchronize my local branch with the rewritten remote history. If I had unique local work, I would not use `reset --hard` until that work had been protected.
+
+### 4. What I would do differently in a real team
+
+In a real project, I would avoid rebasing and force-pushing a branch once other team members are using it. I would keep feature branches focused, use pull requests for changes to main, wait for required checks and reviews, and communicate before making changes that affect shared history.
 
