@@ -82,3 +82,15 @@ review. The group's answer to that is naming a backup reviewer for that path, so
 
 blocked indefinitely on a single person's availability.
 
+
+### Task 4 — Pre-commit hook (Husky)
+Set up a Husky pre-commit hook that blocks any commit staging a .env file.
+Demonstrated live: staged a test .env file and attempted to commit —
+the commit was rejected with:
+
+"Commit blocked: .env file is staged. Remove it before committing."
+husky - pre-commit script failed (code 1)
+
+The .env file was never actually committed; it was reset and removed
+immediately after the demonstration.
+
