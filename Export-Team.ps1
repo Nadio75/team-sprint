@@ -1,4 +1,4 @@
-# Exports a list of team members to a CSV file
+# Exports team member names and roles to a CSV file for reporting purposes
 function Export-TeamToCsv {
     param(
         [string]$OutputPath = "team-export.csv"
