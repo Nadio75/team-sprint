@@ -48,3 +48,12 @@ I added `Validate-TeamJson.ps1` to check the shared `team.json` file before it i
 To run it:
 `powershell -ExecutionPolicy Bypass -File .\Validate-TeamJson.ps1`
 
+### Task 9 - Rebase near-miss
+
+For the rebase exercise, I fetched the shared `rebase-demo` branch and checked it out on my machine. At that point my local branch matched the remote branch. My teammate then rewrote the history of `rebase-demo` and force-pushed it. After I ran `git fetch origin`, Git showed a forced update and reported that my local branch and `origin/rebase-demo` had diverged, with one different commit on each side. I did not have any unique work on my local copy, so after confirming with my teammate that the force-push was intentional, I recovered by running:
+`git reset --hard origin/rebase-demo`
+After the reset, Git confirmed that my local `rebase-demo` branch was up to date with the remote branch. 
+
+This exercise showed me why rebasing and force-pushing a shared branch is risky. If I had unique work locally, using `reset --hard` without checking first could have caused me to lose that work. Communication was important before changing the local history.
+
+
