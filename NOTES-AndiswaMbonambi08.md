@@ -82,3 +82,26 @@ review. The group's answer to that is naming a backup reviewer for that path, so
 
 blocked indefinitely on a single person's availability.
 
+
+### Task 8 — The live conflict
+
+The conflict happened organically: my feat/team-summary PR merged into main
+first, adding a "Team Summary" section to README.md. When Nadio's
+feat/sort-team-aplhabetically branch (which added a "Sorting team members"
+section to the same spot in README.md) tried to merge, Git flagged a real
+conflict on README.md — both branches modified the same area of the file
+independently, with no coordination on content beforehand.
+
+We resolved it together live: I pulled Nadio's branch, ran the merge, and
+we talked through whether both sections should survive or whether one
+should take priority. We agreed both were genuinely useful and neither
+overwrote the other's information, so we kept both sections, deciding
+the order together rather than one of us picking silently.
+
+If I'd resolved it alone by guessing, the most likely outcome is I'd have
+kept only my own "Team Summary" section (since that's the version I'd see
+first from my side of the merge) and silently discarded Nadio's "Sorting
+team members" documentation. That would have deleted real, working
+documentation without Nadio knowing, and left the README out of sync
+with a feature that actually exists in the codebase.
+
