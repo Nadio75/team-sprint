@@ -40,3 +40,39 @@ For this sprint, I would enable a required pull request before merging into main
 The required pull request prevents changes from going straight into main without review. One approval gives another team member a chance to check the change before it is merged. Required status checks prevent a PR from being merged when the automated checks are failing. Disallowing force-pushes protects the history of main from being rewritten. CODEOWNERS helps make sure that changes to important paths are reviewed by the person responsible for them.
 
 For our small group, I would require one approval rather than two. Two approvals could give more review coverage, but in a group of three or four people it could also stop the sprint if one person is unavailable. One required approval, together with CI and CODEOWNERS where appropriate, gives us protection without making it unnecessarily difficult to merge work.
+
+### Team JSON validation
+
+I added `Validate-TeamJson.ps1` to check the shared `team.json` file before it is used. The validator checks that the file contains valid JSON, that the top-level data is an array, and that every team member has both a name and a role. I tested it with the current `team.json` and also with a temporary incomplete record. The valid file passed, while the incomplete record was rejected with exit code 1.
+
+To run it:
+`powershell -ExecutionPolicy Bypass -File .\Validate-TeamJson.ps1`
+
+### Task 9 - Rebase near-miss
+
+For the rebase exercise, I fetched the shared `rebase-demo` branch and checked it out on my machine. At that point my local branch matched the remote branch. My teammate then rewrote the history of `rebase-demo` and force-pushed it. After I ran `git fetch origin`, Git showed a forced update and reported that my local branch and `origin/rebase-demo` had diverged, with one different commit on each side. I did not have any unique work on my local copy, so after confirming with my teammate that the force-push was intentional, I recovered by running:
+`git reset --hard origin/rebase-demo`
+After the reset, Git confirmed that my local `rebase-demo` branch was up to date with the remote branch. 
+
+This exercise showed me why rebasing and force-pushing a shared branch is risky. If I had unique work locally, using `reset --hard` without checking first could have caused me to lose that work. Communication was important before changing the local history.
+
+## Final Reflection
+
+### 1. What I contributed
+
+My main feature contribution was input validation for `team.json`. I created `Validate-TeamJson.ps1`, which checks that the file contains valid JSON, that the top-level structure is an array, and that every team member has both a name and a role. I made the work in separate Conventional Commits, tested both valid and invalid data, pushed the feature branch, opened a pull request, and had the changes reviewed before they were merged.
+
+### 2. What I learned from the conflict exercise
+
+The conflict exercise showed why communication matters when two people change the same part of a shared repository. A conflict should not be resolved by simply choosing one version without understanding what both contributors intended. Guessing could remove another person's useful change or leave the shared file in an incorrect state.
+
+### 3. What I learned from the rebase near-miss
+
+The rebase exercise showed me how rewriting history on a shared branch can affect another developer who already has the old history locally. After the force-push, Git reported that my local and remote branches had diverged.
+
+Before recovering, I confirmed that the force-push was intentional and that I had no unique local work. I then used `git reset --hard origin/rebase-demo` to synchronize my local branch with the rewritten remote history. If I had unique local work, I would not use `reset --hard` until that work had been protected.
+
+### 4. What I would do differently in a real team
+
+In a real project, I would avoid rebasing and force-pushing a branch once other team members are using it. I would keep feature branches focused, use pull requests for changes to main, wait for required checks and reviews, and communicate before making changes that affect shared history.
+
