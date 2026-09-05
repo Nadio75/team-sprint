@@ -5,9 +5,11 @@ function Export-TeamToCsv {
     )
 
     $team = @(
-        [PSCustomObject]@{ Name = "Mathabo"; Role = "Developer" },
-        [PSCustomObject]@{ Name = "Nadio"; Role = "Developer" },
-        [PSCustomObject]@{ Name = "Andiswa"; Role = "Developer" }
+    [PSCustomObject]@{ Name = "Mathabo"; Role = "Developer" },
+    [PSCustomObject]@{ Name = "Nadio"; Role = "Developer" },
+    [PSCustomObject]@{ Name = "Andiswa"; Role = "Developer" },
+    [PSCustomObject]@{ Name = "Kgomotso"; Role = "Developer" }
+)
     )
 
     if (-not $team) {
