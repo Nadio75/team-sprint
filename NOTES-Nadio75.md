@@ -48,3 +48,22 @@ Our group will enable:
 - **CODEOWNERS-required review** for specific paths, so the person most familiar with that part of the code is looped in automatically.
 
 Trade-off: requiring only 1 approval means a PR could theoretically merge with an approval from someone unfamiliar with that area of the code, rather than the most relevant reviewer. We're accepting that risk in exchange for merge speed, and mitigating it partially through CODEOWNERS auto-requesting the relevant person — though CODEOWNERS review isn't strictly *required* to merge (that's Stretch Goal A), so it's a soft mitigation, not a hard guarantee.
+
+
+## Reflection
+
+1. Which rule mattered most, in practice
+
+The required status check mattered most in practice. When I opened a PR that deliberately renamed README.md to simulate a failure, the CI check genuinely failed and the merge button stayed disabled even after a teammate approved the PR — proving that approval alone wasn't enough to merge. This showed the two rules (approval and status checks) work independently, not as a single combined gate, which isn't obvious until you actually watch it happen.
+
+2. The conflict, from the inside
+
+I observed the Task 8 conflict resulting from two parallel feature branches — team-summary and sort-team-alphabetically — both touching the same section of README.md at the same time. When the second PR was opened, GitHub flagged a real conflict on that shared section. Resolving it meant looking at both additions and deciding how to combine them into a single coherent README section, rather than just picking one version and discarding the other's work.
+
+3. The rebase recovery
+
+I wasn't one of the two people directly involved in the Task 9 rebase-and-recover exercise. If it happened to me unannounced, the first thing I'd do is not panic and not try to manually patch my local branch — I'd communicate with whoever rewrote the history to understand what changed, then run git fetch followed by git reset --hard origin/<branch> if my local work had nothing unique to preserve, rather than attempting a merge that would tangle the old and rewritten history together.
+
+4. What you'd change about your group's rules
+
+Now that we've worked under these rules for a full sprint, I'd tighten the CODEOWNERS setup specifically — right now it maps paths to individual members but doesn't require their approval to merge (that's Stretch Goal A, which we didn't implement). During the sprint, PRs could merge with just any one approval, not necessarily the person most familiar with that file. Requiring the actual code owner's approval on their mapped paths would close that gap without adding much overhead, since we're already routing the review request to them anyway.
