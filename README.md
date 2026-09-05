@@ -9,3 +9,7 @@ roles/assignments are represented.
 Run it with:
 
     npm run summary
+
+## Sorting team members
+
+Run `node sortTeam.js` to print all team members sorted alphabetically by name.
