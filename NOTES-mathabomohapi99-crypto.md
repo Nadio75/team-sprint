@@ -36,3 +36,17 @@ The clearest rebase risk in our workflow is in Task 9: one member creates a bran
 
 Our group enabled: required pull request before merging, required 1 approval, required status check (the CI workflow), disallowed force-push, and CODEOWNERS-required review on specific paths. We chose 1 approval instead of 2 because with only 3-4 people, requiring 2 approvals risks stalling a merge if one person is busy or unavailable — a real risk in a short sprint window. To make up for the lower approval count, we rely on CODEOWNERS to guarantee that at least the right person reviews any change to their specific path, even though the group-wide rule only requires one approval overall.
 
+
+
+
+
+
+
+\## NOTES.md Updates
+
+
+
+\### 3. The rebase recovery
+
+I was the one who rebased and force-pushed in Task 9. After my partner had already fetched the original branch, I amended my last commit (changing its hash) and force-pushed the rewritten history to rebase-demo. This meant my partner's local branch and the remote had diverged — same branch name, but pointing at two different, incompatible histories. I told her not to run git pull directly, since that risks a messy merge or conflict between the old and new histories. Instead, she ran git fetch origin to safely download the new history without changing her working files, then git status confirmed the divergence. Since she had no unique local work to lose, she recovered cleanly with git reset --hard origin/rebase-demo, which discarded her outdated local commit and matched her branch exactly to the rewritten remote one.
+
