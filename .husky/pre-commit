@@ -1,0 +1,4 @@
+if git diff --cached --name-only | grep -qE "(^|/)\.env$"; then
+  echo "Commit blocked: .env file is staged. Remove it before committing."
+  exit 1
+fi
