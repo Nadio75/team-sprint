@@ -16,4 +16,16 @@ if ($team -isnot [System.Array]) {
     exit 1
 }
 
-Write-Host "team.json is valid JSON and contains a team member array."
+foreach ($member in $team) {
+    if ([string]::IsNullOrWhiteSpace([string]$member.name)) {
+        Write-Error "Each team member must have a name."
+        exit 1
+    }
+
+    if ([string]::IsNullOrWhiteSpace([string]$member.role)) {
+        Write-Error "Each team member must have a role."
+        exit 1
+    }
+}
+
+Write-Host "team.json is valid. All team members have a name and role."
