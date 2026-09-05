@@ -11,3 +11,5 @@ Run it with:
     npm run summary
 
 Testing rebase demo - Mathabo
+
+Second edit before rebase - Mathabo
