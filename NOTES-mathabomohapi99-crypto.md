@@ -62,5 +62,5 @@ I was the one who rebased and force-pushed in Task 9. After my partner had alrea
 
 \### 4. What you'd change about your group's rules
 
-If I changed anything, it would be adding a note in the group's setup instructions to
+If I changed anything, it would be adding a note in the group's setup instructions to always run git pull before creating a new branch. I hit an issue where I created a branch before pulling the latest main, which meant my branch was already behind before I'd made any changes, and later caused an "out-of-date" warning and a messy merge conflict resolution involving Vim that I didn't know how to exit. None of our current rules (PR required, approvals, status checks, CODEOWNERS) would have prevented that - it was a workflow habit, not a repository rule - so I'd add a lightweight checklist step for the group: always sync with main before branching, to avoid avoidable merge headaches later.
 
