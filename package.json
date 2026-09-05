@@ -1,0 +1,25 @@
+{
+  "name": "team-sprint",
+  "version": "1.0.0",
+  "description": "A shared sprint repo for bitcube Assignment 1.3.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nadio75/team-sprint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Nadio75/team-sprint/issues"
+  },
+  "homepage": "https://github.com/Nadio75/team-sprint#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
