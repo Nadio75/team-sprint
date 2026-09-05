@@ -1,12 +1,11 @@
-\## Assignment 1.3
 
+## Assignment 1.3
 
-
-\### Question 1 — Choosing a workflow for this sprint
+### Question 1 - Choosing a workflow for this sprint
 
 Feature-branch is the right choice for this sprint, not Gitflow or trunk-based. Gitflow's
 
-release/develop/hotfix branch structure exists to manage staged releases across environments —
+release/develop/hotfix branch structure exists to manage staged releases across environments -
 
 overhead this sprint doesn't need, since there's no release train or production/staging split to
 
@@ -22,29 +21,25 @@ isolated space to work in parallel, creates a natural point for review before co
 
 lines up directly with the branch protection rules already in place (PR required, approval required).
 
+### Question 2 - Auditing your own history
 
+1. c2327c7 "Add Search-TeamMembersByRole function" -> feat
 
-\### Question 2 — Auditing your own history
+2. be0a33b "wire up role search prompt" -> feat
 
-1\. c2327c7 "Add Search-TeamMembersByRole function" → feat
+3. 2bd1168 "Restore missing QA Tester entry in team.txt" -> fix
 
-2\. be0a33b "wire up role search prompt" → feat
+4. 08c302a "Remove stray file created by mistyped command" -> chore
 
-3\. 2bd1168 "Restore missing QA Tester entry in team.txt" → fix
+5. dba9443 "made change to the layout and Add details to team.txt" -> doesn't map cleanly (feat + style
 
-4\. 08c302a "Remove stray file created by mistyped command" → chore
+   bundled together). This commit mixed a layout change with a new data entry, two unrelated concerns
 
-5\. dba9443 "made change to the layout and Add details to team.txt" → doesn't map cleanly (feat + style
+   in one commit. It should have been split: one commit for the layout, one for the data. Bundling them
 
-&#x20;  bundled together). This commit mixed a layout change with a new data entry — two unrelated concerns
+   makes the history harder to scan, and a revert of one change would drag the other with it.
 
-&#x20;  in one commit. It should have been split: one commit for the layout, one for the data. Bundling them
-
-&#x20;  makes the history harder to scan, and a revert of one change would drag the other with it.
-
-
-
-\### Question 3 — Where your group's rebase risk lives
+### Question 3 - Where your group's rebase risk lives
 
 The clearest rebase-risk moment is Task 9 itself: one member creates a branch, a second member
 
@@ -52,25 +47,23 @@ fetches or pulls it to review or build on, and then the first member rebases and
 
 own branch. Once that happens, the second member's local branch history no longer matches the
 
-remote — their commits are now based on commits that no longer exist upstream, so their next
+remote, their commits are now based on commits that no longer exist upstream, so their next
 
-`git pull` either fails or creates a confusing duplicate history. What they should do instead of guessing
+git pull either fails or creates a confusing duplicate history. What they should do instead of guessing
 
 is stop, communicate with whoever rebased, confirm whether their own local work has anything unique
 
-worth keeping, and if not, run `git fetch` followed by `git reset --hard origin/<branch>` to snap their
+worth keeping, and if not, run git fetch followed by git reset --hard origin/<branch> to snap their
 
-local branch back in line with the rewritten remote history — rather than attempting to merge or rebase
+local branch back in line with the rewritten remote history, rather than attempting to merge or rebase
 
 on top of a branch that already changed underneath them.
 
-
-
-\### Question 4 — Designing your group's rules, before you configure them
+### Question 4 - Designing your group's rules, before you configure them
 
 Enable: required PR before merging, 1 required approval, disallowed force-push, a required status
 
-check, and CODEOWNERS-required review on the path it covers. Skip requiring 2 approvals — with a
+check, and CODEOWNERS-required review on the path it covers. Skip requiring 2 approvals, with a
 
 3-4 person group, 1 approval keeps merges moving without becoming a bottleneck if someone is
 
@@ -82,26 +75,119 @@ review. The group's answer to that is naming a backup reviewer for that path, so
 
 blocked indefinitely on a single person's availability.
 
+### Task 4 - Pre-commit hook (Husky)
 
-### Task 8 — The live conflict
+Set up a Husky pre-commit hook that blocks any commit staging a .env file.
+
+Demonstrated live: staged a test .env file and attempted to commit -
+
+the commit was rejected with:
+
+"Commit blocked: .env file is staged. Remove it before committing."
+
+husky - pre-commit script failed (code 1)
+
+The .env file was never actually committed; it was reset and removed
+
+immediately after the demonstration.
+
+### Task 8 - The live conflict
 
 The conflict happened organically: my feat/team-summary PR merged into main
+
 first, adding a "Team Summary" section to README.md. When Nadio's
+
 feat/sort-team-aplhabetically branch (which added a "Sorting team members"
+
 section to the same spot in README.md) tried to merge, Git flagged a real
-conflict on README.md — both branches modified the same area of the file
+
+conflict on README.md, both branches modified the same area of the file
+
 independently, with no coordination on content beforehand.
 
 We resolved it together live: I pulled Nadio's branch, ran the merge, and
+
 we talked through whether both sections should survive or whether one
+
 should take priority. We agreed both were genuinely useful and neither
+
 overwrote the other's information, so we kept both sections, deciding
+
 the order together rather than one of us picking silently.
 
 If I'd resolved it alone by guessing, the most likely outcome is I'd have
+
 kept only my own "Team Summary" section (since that's the version I'd see
+
 first from my side of the merge) and silently discarded Nadio's "Sorting
+
 team members" documentation. That would have deleted real, working
+
 documentation without Nadio knowing, and left the README out of sync
+
 with a feature that actually exists in the codebase.
+
+### NOTES.md Updates - Reflection
+
+**1. Which rule mattered most, in practice**
+
+Required PR + required approval mattered most in practice, not hypothetically.
+
+It's what surfaced the Task 8 README conflict in the first place, because a
+
+direct push wasn't possible, my feat/team-summary branch and Nadio's
+
+feat/sort-team-aplhabetically branch both had to go through a real merge
+
+into main, which is exactly where the conflict showed up and had to be
+
+resolved together rather than silently overwritten.
+
+**2. The conflict, from the inside**
+
+I was one of the two people in Task 8. I saw the conflict when I ran
+
+git merge origin/main on Nadio's branch and got "CONFLICT (content):
+
+Merge conflict in README.md". Nadio and I looked at both versions side by
+
+side, his "Sorting team members" section and my "Team Summary" section,
+
+and talked through whether one should replace the other or if both were
+
+worth keeping. We agreed both were genuinely useful documentation for
+
+different features, so we kept both, and decided together where each
+
+section should sit in the file rather than either of us picking alone.
+
+**3. The rebase recovery**
+
+I wasn't directly involved in Task 9, mathabomohapi99-crypto and mdvar2
+
+documented recovering from it. If it happened to me unannounced (someone
+
+force-pushed a branch I'd already pulled), I wouldn't try to merge or
+
+rebase on top of it blindly. I'd stop, message whoever force-pushed to
+
+understand what changed, check whether my own local commits had anything
+
+unique worth keeping, and if not, run git fetch followed by git reset
+
+--hard origin/<branch> to snap back in line with the rewritten history.
+
+**4. What you'd change about your group's rules**
+
+Now that I've actually hit a real merge conflict, I'd tighten one thing:
+
+require branches to be updated against main before merging, not just
+
+after a conflict shows up. My PR (feat/team-summary) merged first, and
+
+Nadio's branch went stale without either of us realizing it until his
+
+merge attempt failed. Requiring an up-to-date branch as a status check
+
+would surface that earlier, rather than at merge time.
 
